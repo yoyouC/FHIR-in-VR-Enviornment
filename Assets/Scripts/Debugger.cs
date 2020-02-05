@@ -6,18 +6,24 @@ using UnityEngine.UI;
 
 public class Debugger : MonoBehaviour
 {
-    public Transform LeftHand;
-    public Transform RightHand;
+    private Transform LeftHand;
+    private Transform RightHand;
 
+    public Hands Hands;
     public Text LeftHandT;
     public Text RightHandT;
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
+
+    void Start()
+    {
+        Hands = Hands.Instance;
+    }
     void Update()
     {
-        LeftHandT.text = LeftHand.localPosition.x + " " + LeftHand.localPosition.y + " " + LeftHand.localPosition.z;
+        LeftHand = Hands.LeftHand.gameObject.transform;
+        RightHand = Hands.RightHand.gameObject.transform;
+        LeftHandT.text = LeftHand.position.x + " " + LeftHand.localPosition.y + " " + LeftHand.localPosition.z;
         RightHandT.text = RightHand.localPosition.x + " " + RightHand.localPosition.y + " " + RightHand.localPosition.z;
+
     }
 }
