@@ -32,6 +32,9 @@ public class WheelDrive : MonoBehaviour
 
     private WheelCollider[] m_Wheels;
 
+	public Transform LeftHand;
+	public Transform RightHand;
+
     // Find all the WheelColliders down in the hierarchy.
 	void Start()
 	{
@@ -57,8 +60,11 @@ public class WheelDrive : MonoBehaviour
 	{
 		m_Wheels[0].ConfigureVehicleSubsteps(criticalSpeed, stepsBelow, stepsAbove);
 
-		float angle = maxAngle * Input.GetAxis("Horizontal");
-		float torque = maxTorque * Input.GetAxis("Vertical");
+		// float angle = maxAngle * Input.GetAxis("Horizontal");
+		// float torque = maxTorque * Input.GetAxis("Vertical");
+		float angle = getAngle() * 0.3f;
+		Debug.Log(angle);
+		float torque = maxTorque;
 
 		float handBrake = Input.GetKey(KeyCode.X) ? brakeTorque : 0;
 
@@ -105,5 +111,16 @@ public class WheelDrive : MonoBehaviour
                 }
 			}
 		}
+	}
+
+	private float getAngle(){
+		float diff_x = RightHand.localPosition.x - LeftHand.localPosition.x;
+		float diff_y = RightHand.localPosition.y - LeftHand.localPosition.y;
+
+		double angle_radius = Math.Atan(System.Convert.ToDouble((diff_y/diff_x)));
+		Debug.Log(angle_radius);
+		float angle_degree = (float)(angle_radius * 180 / Math.PI);
+
+		return -angle_degree;
 	}
 }
