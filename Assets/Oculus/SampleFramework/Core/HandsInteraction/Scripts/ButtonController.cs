@@ -12,6 +12,7 @@ language governing permissions and limitations under the license.
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace OculusSampleFramework
 {
@@ -20,6 +21,7 @@ namespace OculusSampleFramework
 	/// </summary>
 	public class ButtonController : Interactable
 	{
+		public Text text;
 		private const float ENTRY_DOT_THRESHOLD = 0.8f;
 		private const float PERP_DOT_THRESHOLD = 0.5f;
 
@@ -217,7 +219,7 @@ namespace OculusSampleFramework
 						// if tool goes into contact state due to proper movement, but does not maintain
 						// that movement throughout (i.e. a tool/finger presses downwards initially but
 						// moves in random directions afterwards), then don't go into action
-						else if (toolInActionZone && validContact && onPositiveSideOfButton)
+						else if (toolInActionZone)
 						{
 							newState = InteractableState.ActionState;
 						}
@@ -228,8 +230,7 @@ namespace OculusSampleFramework
 						{
 							newState = InteractableState.Default;
 						}
-						else if (validContact && onPositiveSideOfButton &&
-								 collisionDepth > InteractableCollisionDepth.Proximity)
+						else if (collisionDepth > InteractableCollisionDepth.Proximity)
 						{
 							newState = collisionDepth == InteractableCollisionDepth.Action
 							  ? InteractableState.ActionState
@@ -280,7 +281,6 @@ namespace OculusSampleFramework
 			if (oldState != newState)
 			{
 				_currentButtonState = newState;
-
 				var interactionType = !switchingStates ? InteractionType.Stay :
 				  collisionDepth == InteractableCollisionDepth.None ? InteractionType.Exit :
 				  InteractionType.Enter;
