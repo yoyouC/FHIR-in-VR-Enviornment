@@ -22,7 +22,7 @@ public class Debugger : MonoBehaviour
     {
         LeftHand = Hands.LeftHand.gameObject.transform;
         RightHand = Hands.RightHand.gameObject.transform;
-        LeftHandT.text = LeftHand.position.x + " " + LeftHand.localPosition.y + " " + LeftHand.localPosition.z;
+        LeftHandT.text = (int)(RightHand.rotation.eulerAngles.x) + " " + (int)(RightHand.rotation.eulerAngles.y) + " " + (int)(RightHand.rotation.eulerAngles.z);
         RightHandT.text = RightHand.localPosition.x + " " + RightHand.localPosition.y + " " + RightHand.localPosition.z;
 
     }
