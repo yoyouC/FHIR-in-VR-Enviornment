@@ -90,6 +90,7 @@ public class GestureListener : MonoBehaviour
         // counter = 0;
         // for (int i = 0; i < leftHandStates.Length; i = i + 5)
         // {
+            
         //     if(leftHandStates[i].fingerPinchStrengths != null){
         //         for (int j = 0; j < leftHandStates[i].fingerPinchStrengths.Length; j++)
         //         {
