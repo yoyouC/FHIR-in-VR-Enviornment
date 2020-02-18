@@ -79,12 +79,12 @@ public class GestureListener : MonoBehaviour
                 counter++;
             }
         }
-        // if (counter > 0){
-        //     for (int i = 0; i < 5; i++)
-        //     {
-        //         AveragePinchStrengthRight[i] = AveragePinchStrengthRight[i] / counter;
-        //     }
-        // }
+        if (counter > 0){
+            for (int i = 0; i < 5; i++)
+            {
+                AveragePinchStrengthRight[i] = AveragePinchStrengthRight[i] / counter;
+            }
+        }
 
         // HandState[] leftHandStates = LeftHandStates.ToArray();
         // counter = 0;
@@ -110,6 +110,7 @@ public class GestureListener : MonoBehaviour
     private void InvokeGestureEvents()
     {
         InvokeSlapRight();
+        InvokeOKgesture();
     }
 
     private void InvokeSlapRight(){
