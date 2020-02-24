@@ -94,7 +94,7 @@ namespace OculusSampleFramework
 				return false;
 			}
 			_capsulesParent.name = _hand.HandType + "Physics";
-			// Each capsule is associated to a bone. there can be more than on capsule per bone.
+			// Each capsule is associated to a bone. there can be more than one capsule per bone.
 			for (var ci = 0; ci < skeleton.NumBoneCapsules; ++ci)
 			{
 				var capsule = skeleton.BoneCapsules[ci];

@@ -571,6 +571,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376194250}
   m_CullTransparentMesh: 0
+--- !u!1 &386478766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 386478767}
+  - component: {fileID: 386478769}
+  - component: {fileID: 386478768}
+  m_Layer: 5
+  m_Name: Text (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &386478767
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386478766}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1053245195}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -10, y: -178}
+  m_SizeDelta: {x: 300, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &386478768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386478766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &386478769
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386478766}
+  m_CullTransparentMesh: 0
 --- !u!1 &403633988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,6 +1484,7 @@ RectTransform:
   - {fileID: 836892578}
   - {fileID: 854200690}
   - {fileID: 1023732345}
+  - {fileID: 386478767}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -1429,7 +1507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hands: {fileID: 1717448627}
   LeftHandT: {fileID: 836892579}
-  RightHandT: {fileID: 854200691}
+  RightHandT: {fileID: 1023732347}
 --- !u!1001 &1073722350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2195,11 +2273,29 @@ MonoBehaviour:
     rigTarget: {fileID: 1541730065}
     trackingPositionOffset: {x: 0, y: 0, z: 0}
     trackingRotationOffset: {x: 180, y: 90, z: 90}
-  rightHand:
+  rightHandM:
     vrTarget: {fileID: 1086183894}
     rigTarget: {fileID: 403633989}
     trackingPositionOffset: {x: 0, y: 0, z: 0}
     trackingRotationOffset: {x: 180, y: 180, z: 0}
+  rightHandFingerRotation:
+    Hand_Thumb2: {fileID: 1721111981173334065}
+    Hand_Thumb3: {fileID: 8528765464952969947}
+    Hand_Index1: {fileID: 3628133069208640533}
+    Hand_Index2: {fileID: 8027735474836364444}
+    Hand_Index3: {fileID: 2449951053034205316}
+    Hand_Middle1: {fileID: 9130135017935296659}
+    Hand_Middle2: {fileID: 3918219405769373785}
+    Hand_Middle3: {fileID: 8062025805293703028}
+    Hand_Ring1: {fileID: 4394591402872404760}
+    Hand_Ring2: {fileID: 1572737853320530996}
+    Hand_Ring3: {fileID: 461719399696531779}
+    Hand_Pinky1: {fileID: 7304850380118978642}
+    Hand_Pinky2: {fileID: 793555168410452275}
+    Hand_Pinky3: {fileID: 1371624365491705357}
+    FingerTrackingRotationOffset: {x: 180, y: -180, z: 180}
+  Hands: {fileID: 1717448627}
+  text: {fileID: 386478768}
 --- !u!4 &793555168410452275
 Transform:
   m_ObjectHideFlags: 0
