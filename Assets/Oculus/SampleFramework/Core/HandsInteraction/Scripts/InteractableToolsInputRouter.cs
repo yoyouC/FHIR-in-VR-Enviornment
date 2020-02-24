@@ -12,6 +12,7 @@ language governing permissions and limitations under the license.
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace OculusSampleFramework
 {
@@ -22,6 +23,7 @@ namespace OculusSampleFramework
 	/// </summary>
 	public class InteractableToolsInputRouter : MonoBehaviour
 	{
+		public Text text;
 		private static InteractableToolsInputRouter _instance;
 		private bool _leftPinch, _rightPinch;
 
@@ -280,6 +282,7 @@ namespace OculusSampleFramework
 			// tell removed interactables that we are gone
 			foreach (Interactable removedInteractable in _removedInteractables)
 			{
+				text.text = removedInteractable.gameObject.name;
 				removedInteractable.UpdateCollisionDepth(interactableTool, oldCollisionMap[removedInteractable].CollisionDepth,
 				  InteractableCollisionDepth.None, oldCollisionMap[removedInteractable].CollidingTool);
 			}
@@ -287,6 +290,7 @@ namespace OculusSampleFramework
 			// tell added interactable what state we are now in
 			foreach (Interactable addedInteractableKey in _addedInteractables)
 			{
+				text.text = addedInteractableKey.gameObject.name;
 				var addedInteractable = newCollisionMap[addedInteractableKey];
 				var collisionDepth = addedInteractable.CollisionDepth;
 				addedInteractableKey.UpdateCollisionDepth(interactableTool, InteractableCollisionDepth.None,
@@ -296,6 +300,7 @@ namespace OculusSampleFramework
 			// remaining interactables must be updated
 			foreach (Interactable remainingInteractableKey in _remainingInteractables)
 			{
+				text.text = remainingInteractableKey.gameObject.name;
 				var newDepth = newCollisionMap[remainingInteractableKey].CollisionDepth;
 				var oldDepth = oldCollisionMap[remainingInteractableKey].CollisionDepth;
 				remainingInteractableKey.UpdateCollisionDepth(interactableTool, oldDepth, newDepth,

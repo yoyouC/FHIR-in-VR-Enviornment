@@ -145,6 +145,7 @@ namespace OculusSampleFramework
 		  InteractableCollisionDepth oldCollisionDepth,
 		  InteractableCollisionDepth collisionDepth, InteractableTool collidingTool)
 		{
+			text.text = "here";
 			bool isFarFieldTool = interactableTool.IsFarFieldTool;
 
 			// if this is a near field tool and another tool already controls it, bail.
