@@ -1,31 +1,16 @@
-/************************************************************************************
-
-Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.  
-
-See SampleFramework license.txt for license terms.  Unless required by applicable law 
-or agreed to in writing, the sample code is provided “AS IS” WITHOUT WARRANTIES OR 
-CONDITIONS OF ANY KIND, either express or implied.  See the license for specific 
-language governing permissions and limitations under the license.
-
-************************************************************************************/
-
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using OculusSampleFramework;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
 
-namespace OculusSampleFramework
+namespace YoyouOculusFramework
 {
-	/// <summary>
-	/// A button interactable used by the train scene.
-	/// </summary>
-	public class ButtonController : Interactable
-	{
+    public class HandTrackingButton : Interactable
+{
 		private const float ENTRY_DOT_THRESHOLD = 0.8f;
 		private const float PERP_DOT_THRESHOLD = 0.5f;
 
-		[SerializeField] private GameObject _proximityZone = null;
-		[SerializeField] private GameObject _contactZone = null;
 		[SerializeField] private GameObject _actionZone = null;
 		[SerializeField] private ContactTest[] _contactTests = null;
 		// for positive side tests, the contact position must be on the positive side of the plane
@@ -68,8 +53,6 @@ namespace OculusSampleFramework
 		protected override void Awake()
 		{
 			base.Awake();
-			Assert.IsNotNull(_proximityZone);
-			Assert.IsNotNull(_contactZone);
 			Assert.IsNotNull(_actionZone);
 			Assert.IsNotNull(_buttonPlaneCenter);
 
@@ -78,8 +61,6 @@ namespace OculusSampleFramework
 				_toolTagsMask |= (int)interactableToolTags;
 			}
 
-			_proximityZoneCollider = _proximityZone.GetComponent<ColliderZone>();
-			_contactZoneCollider = _contactZone.GetComponent<ColliderZone>();
 			_actionZoneCollider = _actionZone.GetComponent<ColliderZone>();
 		}
 
@@ -192,66 +173,18 @@ namespace OculusSampleFramework
 					case InteractableState.ActionState:
 						if (!toolInActionZone)
 						{
-							// if retreating from action, can go back into action state even if contact
-							// is not legal (i.e. tool/finger retracts)
-							if (toolInContactZone)
-							{
-								newState = InteractableState.ContactState;
-							}
-							else if (toolIsInProximity)
-							{
-								newState = InteractableState.ProximityState;
-							}
-							else
-							{
-								newState = InteractableState.Default;
-							}
+                            newState = InteractableState.Default;
 						}
+                        break;
 
-						break;
-					case InteractableState.ContactState:
-						if (collisionDepth < InteractableCollisionDepth.Contact)
-						{
-							newState = toolIsInProximity ? InteractableState.ProximityState : InteractableState.Default;
-						}
-						// can only go to action state if contact is legal
-						// if tool goes into contact state due to proper movement, but does not maintain
-						// that movement throughout (i.e. a tool/finger presses downwards initially but
-						// moves in random directions afterwards), then don't go into action
-						else if (toolInActionZone)
-						{
-							newState = InteractableState.ActionState;
-						}
-
-						break;
-					case InteractableState.ProximityState:
-						if (collisionDepth < InteractableCollisionDepth.Proximity)
-						{
-							newState = InteractableState.Default;
-						}
-						else if (collisionDepth > InteractableCollisionDepth.Proximity)
-						{
-							newState = collisionDepth == InteractableCollisionDepth.Action
-							  ? InteractableState.ActionState
-							  : InteractableState.ContactState;
-						}
-
-						break;
 					case InteractableState.Default:
 						// test contact, action first then proximity (more important states
 						// take precedence)
 						if (validContact && onPositiveSideOfButton &&
 							  collisionDepth > InteractableCollisionDepth.Proximity)
 						{
-							newState = collisionDepth == InteractableCollisionDepth.Action
-							  ? InteractableState.ActionState
-							  : InteractableState.ContactState;
+							newState = InteractableState.ActionState;
 						}
-						else if (toolIsInProximity)
-						{
-							newState = InteractableState.ProximityState;
-						}
-
 						break;
 				}
 			}
