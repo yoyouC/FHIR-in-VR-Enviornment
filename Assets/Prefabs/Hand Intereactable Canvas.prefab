@@ -262,7 +262,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  text: {fileID: 0}
   _proximityZone: {fileID: 5704693455439437318}
   _contactZone: {fileID: 5704693455217308998}
   _actionZone: {fileID: 5704693455482412846}

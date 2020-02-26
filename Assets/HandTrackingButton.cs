@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using OculusSampleFramework;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 namespace YoyouOculusFramework
 {
     public class HandTrackingButton : Interactable
-{
-		private const float ENTRY_DOT_THRESHOLD = 0.8f;
+{private const float ENTRY_DOT_THRESHOLD = 0.8f;
 		private const float PERP_DOT_THRESHOLD = 0.5f;
 
+		public UnityEvent OnEnterActionZone;
+		public UnityEvent OnExitActionZone;
 		[SerializeField] private GameObject _actionZone = null;
 		[SerializeField] private ContactTest[] _contactTests = null;
 		// for positive side tests, the contact position must be on the positive side of the plane
@@ -64,63 +66,6 @@ namespace YoyouOculusFramework
 			_actionZoneCollider = _actionZone.GetComponent<ColliderZone>();
 		}
 
-		private void CallEventsOnOldDepth(InteractableCollisionDepth oldDepth, InteractableTool collidingTool)
-		{
-			switch (oldDepth)
-			{
-				case InteractableCollisionDepth.Action:
-					OnActionZoneEvent(new ColliderZoneArgs(ActionCollider, Time.frameCount,
-					  collidingTool, InteractionType.Exit));
-					break;
-				case InteractableCollisionDepth.Contact:
-					OnContactZoneEvent(new ColliderZoneArgs(ContactCollider, Time.frameCount,
-					  collidingTool, InteractionType.Exit));
-					break;
-				case InteractableCollisionDepth.Proximity:
-					OnProximityZoneEvent(new ColliderZoneArgs(ProximityCollider, Time.frameCount,
-					  collidingTool, InteractionType.Exit));
-					break;
-			}
-		}
-
-		private void CallEventsOnNewDepth(InteractableCollisionDepth newDepth, InteractableTool collidingTool)
-		{
-			switch (newDepth)
-			{
-				case InteractableCollisionDepth.Action:
-					OnActionZoneEvent(new ColliderZoneArgs(ActionCollider, Time.frameCount,
-					  collidingTool, InteractionType.Enter));
-					break;
-				case InteractableCollisionDepth.Contact:
-					OnContactZoneEvent(new ColliderZoneArgs(ContactCollider, Time.frameCount,
-					  collidingTool, InteractionType.Enter));
-					break;
-				case InteractableCollisionDepth.Proximity:
-					OnProximityZoneEvent(new ColliderZoneArgs(ProximityCollider, Time.frameCount,
-					  collidingTool, InteractionType.Enter));
-					break;
-			}
-		}
-
-		private void SustainEventsOnDepth(InteractableCollisionDepth depth, InteractableTool collidingTool)
-		{
-			switch (depth)
-			{
-				case InteractableCollisionDepth.Action:
-					OnActionZoneEvent(new ColliderZoneArgs(ActionCollider, Time.frameCount,
-					  collidingTool, InteractionType.Stay));
-					break;
-				case InteractableCollisionDepth.Contact:
-					OnContactZoneEvent(new ColliderZoneArgs(ContactCollider, Time.frameCount,
-					  collidingTool, InteractionType.Stay));
-					break;
-				case InteractableCollisionDepth.Proximity:
-					OnProximityZoneEvent(new ColliderZoneArgs(ProximityCollider, Time.frameCount,
-					  collidingTool, InteractionType.Stay));
-					break;
-			}
-		}
-
 		public override void UpdateCollisionDepth(InteractableTool interactableTool,
 		  InteractableCollisionDepth oldCollisionDepth,
 		  InteractableCollisionDepth collisionDepth, InteractableTool collidingTool)
@@ -139,8 +84,6 @@ namespace YoyouOculusFramework
 			var currButtonDirection = transform.TransformDirection(_localButtonDirection);
 			bool validContact = IsValidContact(collidingTool, currButtonDirection) || collidingTool.IsFarFieldTool;
 			// in case finger enters contact zone first, we are in proximity as well
-			bool toolIsInProximity = collisionDepth >= InteractableCollisionDepth.Proximity;
-			bool toolInContactZone = collisionDepth == InteractableCollisionDepth.Contact;
 			bool toolInActionZone = collisionDepth == InteractableCollisionDepth.Action;
 
 			// plane describing positive side of button
@@ -150,21 +93,11 @@ namespace YoyouOculusFramework
 			  buttonZonePlane.GetSide(collidingTool.InteractionPosition);
 
 			bool switchingStates = oldCollisionDepth != collisionDepth;
-			if (switchingStates)
-			{
-				CallEventsOnOldDepth(oldCollisionDepth, collidingTool);
-				CallEventsOnNewDepth(collisionDepth, collidingTool);
-			}
-			else
-			{
-				SustainEventsOnDepth(collisionDepth, collidingTool);
-			}
 
 			var newState = oldState;
 			if (collidingTool.IsFarFieldTool)
 			{
-				newState = toolInContactZone ? InteractableState.ContactState :
-				  toolInActionZone ? InteractableState.ActionState : InteractableState.Default;
+				newState = toolInActionZone ? InteractableState.ActionState : InteractableState.Default;
 			}
 			else
 			{
@@ -173,18 +106,21 @@ namespace YoyouOculusFramework
 					case InteractableState.ActionState:
 						if (!toolInActionZone)
 						{
-                            newState = InteractableState.Default;
+							newState = InteractableState.Default;
+							if(OnExitActionZone != null) OnExitActionZone.Invoke();
 						}
-                        break;
 
+						break;
 					case InteractableState.Default:
 						// test contact, action first then proximity (more important states
 						// take precedence)
-						if (validContact && onPositiveSideOfButton &&
-							  collisionDepth > InteractableCollisionDepth.Proximity)
+						if (validContact &&
+							  collisionDepth == InteractableCollisionDepth.Action)
 						{
 							newState = InteractableState.ActionState;
+							if(OnEnterActionZone != null) OnEnterActionZone.Invoke();
 						}
+
 						break;
 				}
 			}

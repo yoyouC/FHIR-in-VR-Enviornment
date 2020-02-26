@@ -282,7 +282,6 @@ namespace OculusSampleFramework
 			// tell removed interactables that we are gone
 			foreach (Interactable removedInteractable in _removedInteractables)
 			{
-				text.text = removedInteractable.gameObject.name;
 				removedInteractable.UpdateCollisionDepth(interactableTool, oldCollisionMap[removedInteractable].CollisionDepth,
 				  InteractableCollisionDepth.None, oldCollisionMap[removedInteractable].CollidingTool);
 			}
@@ -300,7 +299,6 @@ namespace OculusSampleFramework
 			// remaining interactables must be updated
 			foreach (Interactable remainingInteractableKey in _remainingInteractables)
 			{
-				text.text = remainingInteractableKey.gameObject.name;
 				var newDepth = newCollisionMap[remainingInteractableKey].CollisionDepth;
 				var oldDepth = oldCollisionMap[remainingInteractableKey].CollisionDepth;
 				remainingInteractableKey.UpdateCollisionDepth(interactableTool, oldDepth, newDepth,
