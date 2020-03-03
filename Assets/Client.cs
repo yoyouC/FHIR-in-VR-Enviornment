@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
@@ -11,20 +13,23 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Bson;
-using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
-namespace FHIRClient
+namespace OculusFHIR
 {
     public class Client : MonoBehaviour
     {
-        public List<Patient> patients;
+        public Text[] texts;
+        public PatientBasicInfoCanvas patientBasicInfoCanvas;
+        public List<Patient> patients = new List<Patient>();
 
         void Awake()
         { 
             List<Patient> patients = new List<Patient>();
-            StartCoroutine(GetRequest("http://localhost:5000/api/Patient/"));
-            
+            StartCoroutine(GetRequest("https://178.62.0.181:5001/api/Patient/"));
+            texts[0].text = "here";
+            // Hl7.Fhir.Model.Patient
         }
 
         System.Collections.IEnumerator GetRequest(string uri)
@@ -39,15 +44,26 @@ namespace FHIRClient
 
                 if (webRequest.isNetworkError)
                 {
+                    
                     Debug.Log(pages[page] + ": Error: " + webRequest.error);
                 }
                 else
                 {
-                    parsePatientData(webRequest.downloadHandler.text);
+                    texts[1].text = "here";
+                    try{
+                        parsePatientData(webRequest.downloadHandler.text);
+                    }catch(Exception e){
+                        texts[2].text = e.ToString();
+                    };
                     // foreach(Patient patient in patients)
                     // {
                     //     Debug.Log(patient.Name[0].Family);
                     // }
+                    
+                    patientBasicInfoCanvas.gameObject.SetActive(false);
+                    patientBasicInfoCanvas = Instantiate(patientBasicInfoCanvas);
+                    patientBasicInfoCanvas.patient = patients[0];
+                    patientBasicInfoCanvas.gameObject.SetActive(true);
                 }
             }
         }
@@ -64,11 +80,11 @@ namespace FHIRClient
             JObject patientBundle = (JObject)JArray.Parse(jsonString).First;
             JArray patientEntries = (JArray)patientBundle.GetValue("entry");
 
-            FhirJsonParser parser = new FhirJsonParser(new ParserSettings { AcceptUnknownMembers = true});
-
             foreach(JObject item in patientEntries)
             {
-                patients.Add(parser.Parse<Patient>(item.GetValue("resource").ToString()));
+                Patient patient = JsonConvert.DeserializeObject<Patient>(item.GetValue("resource").ToString());
+                patients.Add(patient);
+                Debug.Log(patient.name[0].suffix);
             }
         }
     }
