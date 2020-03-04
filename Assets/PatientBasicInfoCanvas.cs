@@ -11,6 +11,7 @@ namespace OculusFHIR
     {
         public Patient patient;
         public Client.CallBack callBack;
+        public MainPage parentPage;
 
         private PropertyArea patientName;
         private PropertyArea birthdate;
@@ -18,6 +19,7 @@ namespace OculusFHIR
         private PropertyArea active;  
         private PropertyArea maritalStatus;
         private PropertyArea address;
+        private HandTrackingButton BackButton;
         private HandTrackingButton ObservationButton;
 
         public AddressDetailsCanvas addressDetailsCanvas;
@@ -31,6 +33,7 @@ namespace OculusFHIR
             active = transform.Find("active").GetComponent<PropertyArea>();
             maritalStatus = transform.Find("marital status").GetComponent<PropertyArea>();
             address = transform.Find("address").GetComponent<PropertyArea>();
+            BackButton = transform.Find("Back Button").GetComponent<HandTrackingButton>();
             ObservationButton = transform.Find("Observations").GetComponent<HandTrackingButton>();
         }
         void Start()
@@ -52,9 +55,8 @@ namespace OculusFHIR
 
             address.addMoreDetailsButton(ToAddressPage);
             patientName.addMoreDetailsButton(ToNamePage);
+            BackButton.OnExitActionZone.AddListener(ToMainPage);
             ObservationButton.OnExitActionZone.AddListener(ToObservationPage);
-
-            ToObservationPage();
         }
 
         public void ToAddressPage()
@@ -80,7 +82,14 @@ namespace OculusFHIR
             this.gameObject.SetActive(false);
             observationCanvas = Instantiate(observationCanvas, transform.position, transform.rotation);
             observationCanvas.patient = patient;
+            observationCanvas.patientBasicInfoCanvas = this;
             observationCanvas.gameObject.SetActive(true);
+        }
+
+        public void ToMainPage()
+        {
+            parentPage.gameObject.SetActive(true);
+            Destroy(this.gameObject);
         }
     }
 }

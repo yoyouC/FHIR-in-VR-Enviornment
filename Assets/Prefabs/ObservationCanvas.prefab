@@ -452,3 +452,5 @@ MonoBehaviour:
     type: 3}
   observationIconPrefeb: {fileID: 8474710295738690349, guid: 5412de2c753960c46ae7212219e9dd81,
     type: 3}
+  observationDetailsCanvas: {fileID: 3513134343758585967, guid: 683d15cdef67edd40812f732dc3fda3a,
+    type: 3}

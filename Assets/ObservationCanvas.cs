@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using YoyouOculusFramework;
 
 namespace OculusFHIR
 {
@@ -14,12 +15,17 @@ namespace OculusFHIR
         public Canvas LoadingPage;
         public Patient patient;
         public ObservationIcon observationIconPrefeb;
+        public ObservationDetailsCanvas observationDetailsCanvas;
+        public PatientBasicInfoCanvas patientBasicInfoCanvas;
+        public HandTrackingButton BackButton;
 
         void Start()
         {
             Client.CallBack OnRecieveData = ParseObservationData;
             Client.INSTANCE.GetObservation(patient.id, OnRecieveData);
             StartCoroutine(DisPlayLoadingPageTillDataGet());
+            BackButton = transform.Find("Back Button").GetComponent<HandTrackingButton>();
+            BackButton.OnExitActionZone.AddListener(ToPatientInfoPage);
         }
 
         private void ParseObservationData(string json)
@@ -71,7 +77,7 @@ namespace OculusFHIR
                 Icon.transform.parent = transform;
                 Icon.GetComponent<RectTransform>().localPosition = currentIconPosition;
                 Icon.setDate(observation.effectiveDateTime);
-                // Icon.addMoreDetailsButton(delegate {ToPatientBasicInfoPage(patient);});
+                Icon.addMoreDetailsButton(delegate {ToObservationDetailsPage(observation);});
 
 
                 if(currentIconPosition.y + goDown.y > -CanvasTop.y)
@@ -82,9 +88,22 @@ namespace OculusFHIR
                 {
                     break;
                 }
-
-            }
+            }  
         }
 
+        private void ToObservationDetailsPage(Observation observation)
+        {
+            this.gameObject.SetActive(false);
+            observationDetailsCanvas = Instantiate(observationDetailsCanvas, transform.position, transform.rotation);
+            observationDetailsCanvas.observation = observation;
+            observationDetailsCanvas.observationCanvas = this;
+            observationDetailsCanvas.gameObject.SetActive(true);
+        }
+
+        public void ToPatientInfoPage()
+        {
+            patientBasicInfoCanvas.gameObject.SetActive(true);
+            Destroy(this.gameObject);
+        }
     }
 }

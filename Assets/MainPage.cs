@@ -54,7 +54,6 @@ namespace OculusFHIR
             Destroy(LoadingPage.gameObject);
             this.gameObject.GetComponent<Canvas>().enabled = true;
             initializePage();
-            ToPatientBasicInfoPage(patients[0]);
         }
 
         private IEnumerator ParseTenPatients(string json)
@@ -116,6 +115,7 @@ namespace OculusFHIR
             PatientBasicInfoCanvas patientBasicInfoCanvas;
             patientBasicInfoCanvas = Instantiate(patientBasicInfoCanvasPrefeb, transform.position, transform.rotation);
             patientBasicInfoCanvas.patient = patient;
+            patientBasicInfoCanvas.parentPage = this;
             patientBasicInfoCanvas.gameObject.SetActive(true);
         }
 
