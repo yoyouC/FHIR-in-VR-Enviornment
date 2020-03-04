@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hl7.Fhir.Model;
 using UnityEngine.Assertions;
+using YoyouOculusFramework;
 
 namespace OculusFHIR
 {
     public class PatientBasicInfoCanvas : MonoBehaviour
     {
         public Patient patient;
+        public Client.CallBack callBack;
 
         private PropertyArea patientName;
         private PropertyArea birthdate;
@@ -16,8 +18,11 @@ namespace OculusFHIR
         private PropertyArea active;  
         private PropertyArea maritalStatus;
         private PropertyArea address;
+        private HandTrackingButton ObservationButton;
 
         public AddressDetailsCanvas addressDetailsCanvas;
+        public NameDetailsCanvas nameDetailsCanvas;
+        public ObservationCanvas observationCanvas;
 
         void Awake() {
             patientName = transform.Find("name").GetComponent<PropertyArea>();
@@ -26,6 +31,7 @@ namespace OculusFHIR
             active = transform.Find("active").GetComponent<PropertyArea>();
             maritalStatus = transform.Find("marital status").GetComponent<PropertyArea>();
             address = transform.Find("address").GetComponent<PropertyArea>();
+            ObservationButton = transform.Find("Observations").GetComponent<HandTrackingButton>();
         }
         void Start()
         {
@@ -42,20 +48,39 @@ namespace OculusFHIR
             birthdate.setPropertyValue(patient.birthDate != null ? patient.birthDate : "");
             gender.setPropertyValue(patient.gender != null ? patient.gender.ToString() : "");
             active.setPropertyValue(patient.active != null ? patient.active.ToString() : "");
-            maritalStatus.setPropertyValue(patient.maritalStatus != null ? patient.maritalStatus.ToString(): "");
+            maritalStatus.setPropertyValue(patient.maritalStatus.text != null ? MaritalStatus.get(patient.maritalStatus.text): "");
 
-            ToAddressPage();
-            
+            address.addMoreDetailsButton(ToAddressPage);
+            patientName.addMoreDetailsButton(ToNamePage);
+            ObservationButton.OnExitActionZone.AddListener(ToObservationPage);
+
+            ToObservationPage();
         }
 
-        void ToAddressPage()
+        public void ToAddressPage()
         {
             this.gameObject.SetActive(false);
-            addressDetailsCanvas.gameObject.SetActive(false);
+            // addressDetailsCanvas.gameObject.SetActive(false);
             addressDetailsCanvas = Instantiate(addressDetailsCanvas, transform.position, transform.rotation);
             addressDetailsCanvas.address = patient.address[0];
             addressDetailsCanvas.gameObject.SetActive(true);
-            Debug.Log(addressDetailsCanvas.gameObject.activeSelf);
+        }
+
+        public void ToNamePage()
+        {
+            this.gameObject.SetActive(false);
+            // addressDetailsCanvas.gameObject.SetActive(false);
+            nameDetailsCanvas = Instantiate(nameDetailsCanvas, transform.position, transform.rotation);
+            nameDetailsCanvas.Name = patient.name[0];
+            nameDetailsCanvas.gameObject.SetActive(true);
+        }
+
+        public void ToObservationPage()
+        {
+            this.gameObject.SetActive(false);
+            observationCanvas = Instantiate(observationCanvas, transform.position, transform.rotation);
+            observationCanvas.patient = patient;
+            observationCanvas.gameObject.SetActive(true);
         }
     }
 }

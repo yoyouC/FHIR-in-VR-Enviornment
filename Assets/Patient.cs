@@ -92,4 +92,38 @@ namespace OculusFHIR
         public List<string> value {get;set;}
         public Extention extention {get;set;}
     }
+
+    public class MaritalStatus
+    {
+        public static string get(string s)
+        {
+            switch(s)
+            {
+                case "A":
+                    return "Annulled";
+                case "D":
+                    return "Divorced";
+                case "I":
+                    return "Interlocutory";
+                case "L":
+                    return "Legally Separated";
+                case "M":
+                    return "Married";
+                case "P":
+                    return "Polygamous";
+                case "S":
+                    return "Never Married";
+                case "T":
+                    return "Domestic";
+                case "U":
+                    return "unmarried";
+                case "W":
+                    return "Widowed";
+                case "UNK":
+                    return "unknown";
+                default:
+                    return "";
+            }
+        }
+    }
 }

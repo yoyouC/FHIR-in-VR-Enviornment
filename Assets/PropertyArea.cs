@@ -21,7 +21,7 @@ namespace OculusFHIR
             propertyNameT = transform.Find("Name").GetComponent<Text>();
             propertyValueT = transform.Find("Value").GetComponent<Text>();
             moreDetailsButton = transform.Find("More Details Button").GetComponent<HandTrackingButton>();
-            moreDetailsButton.gameObject.SetActive(true);
+            moreDetailsButton.gameObject.SetActive(false);
         }
         public void setPropertyName(string name)
         {
@@ -33,7 +33,7 @@ namespace OculusFHIR
         }
         public void addMoreDetailsButton(UnityAction call)
         {
-            // moreDetailsButton.gameObject.SetActive(true);
+            moreDetailsButton.gameObject.SetActive(true);
             moreDetailsButton.OnExitActionZone.AddListener(call);
         }
     }

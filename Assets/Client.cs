@@ -23,22 +23,22 @@ namespace OculusFHIR
         public Text[] texts;
         public PatientBasicInfoCanvas patientBasicInfoCanvas;
         public List<Patient> patients = new List<Patient>();
+        public delegate void CallBack(String data);
+
+        public static Client INSTANCE;
 
         void Awake()
         { 
-            List<Patient> patients = new List<Patient>();
-            StartCoroutine(GetRequest("https://178.62.0.181:5001/api/Patient/"));
-            texts[0].text = "here";
-            // Hl7.Fhir.Model.Patient
+            INSTANCE = this;
         }
 
-        System.Collections.IEnumerator GetRequest(string uri)
+        System.Collections.IEnumerator GetRequest(string uri, CallBack callBack)
         {
             using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
             {
                 webRequest.certificateHandler = new CertHandler();
                 yield return webRequest.SendWebRequest();
-
+                Debug.Log("here");
                 string[] pages = uri.Split('/');
                 int page = pages.Length - 1;
 
@@ -49,21 +49,17 @@ namespace OculusFHIR
                 }
                 else
                 {
-                    texts[1].text = "here";
-                    try{
-                        parsePatientData(webRequest.downloadHandler.text);
-                    }catch(Exception e){
-                        texts[2].text = e.ToString();
-                    };
-                    // foreach(Patient patient in patients)
-                    // {
-                    //     Debug.Log(patient.Name[0].Family);
-                    // }
-                    
-                    patientBasicInfoCanvas.gameObject.SetActive(false);
-                    patientBasicInfoCanvas = Instantiate(patientBasicInfoCanvas);
-                    patientBasicInfoCanvas.patient = patients[0];
-                    patientBasicInfoCanvas.gameObject.SetActive(true);
+                    // try{
+                    //     parsePatientData(webRequest.downloadHandler.text);
+                    // }catch(Exception e){
+                    //     texts[2].text = e.ToString();
+                    // };
+                    // Debug.Log(webRequest.downloadHandler.text);
+                    Debug.Log(webRequest.downloadHandler.text);
+                    callBack(webRequest.downloadHandler.text);
+                    // patientBasicInfoCanvas = Instantiate(patientBasicInfoCanvas, transform.position, transform.rotation);
+                    // patientBasicInfoCanvas.patient = patients[0];
+                    // patientBasicInfoCanvas.gameObject.SetActive(true);
                 }
             }
         }
@@ -75,17 +71,19 @@ namespace OculusFHIR
             }
         }
 
-        private void parsePatientData(string jsonString)
+        public void GetObservation(string patientID, CallBack callBack)
         {
-            JObject patientBundle = (JObject)JArray.Parse(jsonString).First;
-            JArray patientEntries = (JArray)patientBundle.GetValue("entry");
-
-            foreach(JObject item in patientEntries)
-            {
-                Patient patient = JsonConvert.DeserializeObject<Patient>(item.GetValue("resource").ToString());
-                patients.Add(patient);
-                Debug.Log(patient.name[0].suffix);
-            }
+            string url = "https://178.62.0.181:5001/api/Observation/" + patientID;
+            Debug.Log(url);
+            StartCoroutine(GetRequest(url, callBack));
         }
+
+        public void GetPatientData(CallBack callBack)
+        {
+            string url = "https://178.62.0.181:5001/api/Patient/";
+            StartCoroutine(GetRequest(url, callBack));
+        }
+
+        
     }
 }
