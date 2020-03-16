@@ -99,7 +99,7 @@ namespace OculusFHIR
                 }
                 else if(currentIconPosition.y + goDown.y > -CanvasTopLeft.y)
                 {
-                    currentIconPosition = new Vector2(-450, currentIconPosition.y) + goDown;
+                    currentIconPosition = new Vector2(CanvasTopLeft.x + goRight.x/2, currentIconPosition.y) + goDown;
                 }
                 else
                 {
