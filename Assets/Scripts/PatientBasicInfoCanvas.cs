@@ -57,6 +57,8 @@ namespace OculusFHIR
             patientName.addMoreDetailsButton(ToNamePage);
             BackButton.OnExitActionZone.AddListener(ToMainPage);
             ObservationButton.OnExitActionZone.AddListener(ToObservationPage);
+
+            ToNamePage();
         }
 
         public void ToAddressPage()
@@ -65,6 +67,7 @@ namespace OculusFHIR
             // addressDetailsCanvas.gameObject.SetActive(false);
             addressDetailsCanvas = Instantiate(addressDetailsCanvas, transform.position, transform.rotation);
             addressDetailsCanvas.address = patient.address[0];
+            addressDetailsCanvas.parentCanvas = this;
             addressDetailsCanvas.gameObject.SetActive(true);
         }
 
@@ -74,6 +77,7 @@ namespace OculusFHIR
             // addressDetailsCanvas.gameObject.SetActive(false);
             nameDetailsCanvas = Instantiate(nameDetailsCanvas, transform.position, transform.rotation);
             nameDetailsCanvas.Name = patient.name[0];
+            nameDetailsCanvas.parentCanvas = this;
             nameDetailsCanvas.gameObject.SetActive(true);
         }
 

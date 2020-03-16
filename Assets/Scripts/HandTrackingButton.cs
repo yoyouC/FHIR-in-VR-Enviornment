@@ -4,6 +4,7 @@ using UnityEngine;
 using OculusSampleFramework;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace YoyouOculusFramework
 {
@@ -27,6 +28,7 @@ namespace YoyouOculusFramework
 		private InteractableToolTags[] _allValidToolsTags =
 		  new InteractableToolTags[] { InteractableToolTags.All };
 		private int _toolTagsMask;
+
 
 		public override int ValidToolTagsMask
 		{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using UnityEngine.UI;
 
 namespace OculusFHIR
 {
@@ -14,9 +15,8 @@ namespace OculusFHIR
         public PatientIcon patientIconPrefeb;
         public PatientBasicInfoCanvas patientBasicInfoCanvasPrefeb;
 
-        public RectTransform MoveAbleCanvas;
-
         private List<PatientIcon> patientIcons = new List<PatientIcon>();
+        public Text text;
         
         /// <summary>
         /// Awake is called when the script instance is being loaded.
@@ -31,13 +31,6 @@ namespace OculusFHIR
         /// <summary>
         /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
         /// </summary>
-        void Update()
-        {
-            foreach(PatientIcon patientIcon in patientIcons)
-            {
-                patientIcon.GetComponent<RectTransform>().localPosition = patientIcon.originPos + MoveAbleCanvas.anchoredPosition;
-            }
-        }
 
         private void ParsePatientData(string json)
         {
@@ -105,12 +98,13 @@ namespace OculusFHIR
                 {
                     break;
                 }
-
+                ToPatientBasicInfoPage(patients[0]);
             }
         }
 
         public void ToPatientBasicInfoPage(Patient patient)
         {
+            text.text = "here";
             this.gameObject.SetActive(false);
             PatientBasicInfoCanvas patientBasicInfoCanvas;
             patientBasicInfoCanvas = Instantiate(patientBasicInfoCanvasPrefeb, transform.position, transform.rotation);

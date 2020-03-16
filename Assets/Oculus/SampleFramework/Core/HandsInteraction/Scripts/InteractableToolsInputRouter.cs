@@ -255,6 +255,7 @@ namespace OculusSampleFramework
 		  Dictionary<Interactable, InteractableCollisionInfo> oldCollisionMap,
 		  Dictionary<Interactable, InteractableCollisionInfo> newCollisionMap)
 		{
+			text.text = "here";
 			_addedInteractables.Clear();
 			_removedInteractables.Clear();
 			_remainingInteractables.Clear();

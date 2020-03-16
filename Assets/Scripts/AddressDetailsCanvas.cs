@@ -16,7 +16,7 @@ namespace OculusFHIR
             private PropertyArea country;
 
             private HandTrackingButton backButton;
-            public Canvas parentCanvas {get;set;}
+            public PatientBasicInfoCanvas parentCanvas {get;set;}
 
             void Awake() {
                 line = transform.Find("line").GetComponent<PropertyArea>();
@@ -50,7 +50,7 @@ namespace OculusFHIR
             /// </summary>
             public void ToParentCanvas()
             {
-                Destroy(this);
+                Destroy(this.gameObject);
                 parentCanvas.gameObject.SetActive(true);
             }
 
