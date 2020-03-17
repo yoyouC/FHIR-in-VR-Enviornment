@@ -6,4 +6,4 @@ View FHIR patient information in VR enviornment
 1. Clone the repository
 2. Build the App onto Quest
 ### Demonstration:
-[![IMAGE ALT TEXT HERE](https://www.youtube.com/watch?v=LHXTTsQE76I&feature=youtu.be/0.jpg)](https://www.youtube.com/watch?v=LHXTTsQE76I&feature=youtu.be)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LHXTTsQE76I/0.jpg)](https://www.youtube.com/watch?v=LHXTTsQE76I&feature=youtu.be)
