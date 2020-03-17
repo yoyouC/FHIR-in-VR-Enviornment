@@ -67,7 +67,7 @@ namespace OculusFHIR
         {
             Vector2 CanvasTop = new Vector2(0, transform.GetComponent<RectTransform>().sizeDelta.y  / 2);
             Vector2 goDown = new Vector2(0, -observationIconPrefeb.GetComponent<RectTransform>().sizeDelta.y);
-            Vector2 StartingPoint = CanvasTop + goDown;
+            Vector2 StartingPoint = CanvasTop + goDown * 2;
             Vector2 currentIconPosition = StartingPoint;
 
             foreach(Observation observation in observations)
@@ -88,7 +88,7 @@ namespace OculusFHIR
                 {
                     break;
                 }
-            }  
+            }
         }
 
         private void ToObservationDetailsPage(Observation observation)

@@ -16,7 +16,6 @@ namespace OculusFHIR
         public PatientBasicInfoCanvas patientBasicInfoCanvasPrefeb;
 
         private List<PatientIcon> patientIcons = new List<PatientIcon>();
-        public Text text;
         
         /// <summary>
         /// Awake is called when the script instance is being loaded.
@@ -98,13 +97,11 @@ namespace OculusFHIR
                 {
                     break;
                 }
-                ToPatientBasicInfoPage(patients[0]);
             }
         }
 
         public void ToPatientBasicInfoPage(Patient patient)
         {
-            text.text = "here";
             this.gameObject.SetActive(false);
             PatientBasicInfoCanvas patientBasicInfoCanvas;
             patientBasicInfoCanvas = Instantiate(patientBasicInfoCanvasPrefeb, transform.position, transform.rotation);

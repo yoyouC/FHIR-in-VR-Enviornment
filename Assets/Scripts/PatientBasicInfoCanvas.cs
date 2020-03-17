@@ -51,14 +51,13 @@ namespace OculusFHIR
             birthdate.setPropertyValue(patient.birthDate != null ? patient.birthDate : "");
             gender.setPropertyValue(patient.gender != null ? patient.gender.ToString() : "");
             active.setPropertyValue(patient.active != null ? patient.active.ToString() : "");
-            maritalStatus.setPropertyValue(patient.maritalStatus.text != null ? MaritalStatus.get(patient.maritalStatus.text): "");
+            maritalStatus.setPropertyValue(patient.maritalStatus.text != null ? patient.maritalStatus.text: "");
+            address.setPropertyValue(patient.address[0].city != null ? patient.address[0].city + ", " + patient.address[0].country: "");
 
             address.addMoreDetailsButton(ToAddressPage);
             patientName.addMoreDetailsButton(ToNamePage);
             BackButton.OnExitActionZone.AddListener(ToMainPage);
             ObservationButton.OnExitActionZone.AddListener(ToObservationPage);
-
-            ToNamePage();
         }
 
         public void ToAddressPage()

@@ -20,7 +20,6 @@ namespace OculusFHIR
 {
     public class Client : MonoBehaviour
     {
-        public Text[] texts;
         public PatientBasicInfoCanvas patientBasicInfoCanvas;
         public List<Patient> patients = new List<Patient>();
         public delegate void CallBack(String data);
@@ -38,7 +37,6 @@ namespace OculusFHIR
             {
                 webRequest.certificateHandler = new CertHandler();
                 yield return webRequest.SendWebRequest();
-                Debug.Log("here");
                 string[] pages = uri.Split('/');
                 int page = pages.Length - 1;
 
@@ -55,7 +53,6 @@ namespace OculusFHIR
                     //     texts[2].text = e.ToString();
                     // };
                     // Debug.Log(webRequest.downloadHandler.text);
-                    Debug.Log(webRequest.downloadHandler.text);
                     callBack(webRequest.downloadHandler.text);
                     // patientBasicInfoCanvas = Instantiate(patientBasicInfoCanvas, transform.position, transform.rotation);
                     // patientBasicInfoCanvas.patient = patients[0];

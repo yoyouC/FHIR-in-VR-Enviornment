@@ -33,11 +33,12 @@ namespace OculusFHIR
                 suffix.setPropertyName("State");
                 prefix.setPropertyName("prefix");
 
-
                 given.setPropertyValue(Name.given.Count > 0 ?Name.given[0] : "");
                 family.setPropertyValue(Name.family != null ? Name.family : "");
-                suffix.setPropertyValue(Name.suffix != null ? Name.suffix.ToString() : "");
-                prefix.setPropertyValue(Name.prefix != null ? Name.prefix.ToString() : "");
+                suffix.setPropertyValue(Name.suffix != null ? Name.suffix[0] : "");
+                prefix.setPropertyValue(Name.prefix != null ? Name.prefix[0] : "");
+
+
 
                 if(parentCanvas != null)
                 {
