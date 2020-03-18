@@ -197,11 +197,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentPage: {fileID: 0}
-  addressDetailsCanvas: {fileID: 1662680855958599638, guid: 87ca8fcc612d7784fafdd44142957b02,
+  addressDetailsCanvas_prefeb: {fileID: 1662680855958599638, guid: 87ca8fcc612d7784fafdd44142957b02,
     type: 3}
-  nameDetailsCanvas: {fileID: -4925466696786674628, guid: 70d23c962ee50c74c9efa842bd863bc6,
+  nameDetailsCanvas_prefeb: {fileID: -4925466696786674628, guid: 70d23c962ee50c74c9efa842bd863bc6,
     type: 3}
-  observationCanvas: {fileID: 5441220916957325059, guid: 43390e2d5e7704f44b503cbd78fdd210,
+  observationCanvas_prefeb: {fileID: 5441220916957325059, guid: 43390e2d5e7704f44b503cbd78fdd210,
     type: 3}
 --- !u!1001 &160163513488769544
 PrefabInstance:

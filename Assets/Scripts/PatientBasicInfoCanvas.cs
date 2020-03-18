@@ -22,9 +22,9 @@ namespace OculusFHIR
         private HandTrackingButton BackButton;
         private HandTrackingButton ObservationButton;
 
-        public AddressDetailsCanvas addressDetailsCanvas;
-        public NameDetailsCanvas nameDetailsCanvas;
-        public ObservationCanvas observationCanvas;
+        public AddressDetailsCanvas addressDetailsCanvas_prefeb;
+        public NameDetailsCanvas nameDetailsCanvas_prefeb;
+        public ObservationCanvas observationCanvas_prefeb;
 
         void Awake() {
             patientName = transform.Find("name").GetComponent<PropertyArea>();
@@ -58,13 +58,14 @@ namespace OculusFHIR
             patientName.addMoreDetailsButton(ToNamePage);
             BackButton.OnExitActionZone.AddListener(ToMainPage);
             ObservationButton.OnExitActionZone.AddListener(ToObservationPage);
+
         }
 
         public void ToAddressPage()
         {
             this.gameObject.SetActive(false);
             // addressDetailsCanvas.gameObject.SetActive(false);
-            addressDetailsCanvas = Instantiate(addressDetailsCanvas, transform.position, transform.rotation);
+            AddressDetailsCanvas addressDetailsCanvas = Instantiate(addressDetailsCanvas_prefeb, transform.position, transform.rotation);
             addressDetailsCanvas.address = patient.address[0];
             addressDetailsCanvas.parentCanvas = this;
             addressDetailsCanvas.gameObject.SetActive(true);
@@ -74,7 +75,7 @@ namespace OculusFHIR
         {
             this.gameObject.SetActive(false);
             // addressDetailsCanvas.gameObject.SetActive(false);
-            nameDetailsCanvas = Instantiate(nameDetailsCanvas, transform.position, transform.rotation);
+            NameDetailsCanvas nameDetailsCanvas = Instantiate(nameDetailsCanvas_prefeb, transform.position, transform.rotation);
             nameDetailsCanvas.Name = patient.name[0];
             nameDetailsCanvas.parentCanvas = this;
             nameDetailsCanvas.gameObject.SetActive(true);
@@ -83,7 +84,7 @@ namespace OculusFHIR
         public void ToObservationPage()
         {
             this.gameObject.SetActive(false);
-            observationCanvas = Instantiate(observationCanvas, transform.position, transform.rotation);
+            ObservationCanvas observationCanvas = Instantiate(observationCanvas_prefeb, transform.position, transform.rotation);
             observationCanvas.patient = patient;
             observationCanvas.patientBasicInfoCanvas = this;
             observationCanvas.gameObject.SetActive(true);
@@ -93,6 +94,12 @@ namespace OculusFHIR
         {
             parentPage.gameObject.SetActive(true);
             Destroy(this.gameObject);
+        }
+
+        IEnumerator test()
+        {
+            yield return new WaitForSeconds(1);
+            ToAddressPage();
         }
     }
 }
